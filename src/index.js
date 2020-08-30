@@ -1,17 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import PropTypes from 'prop-types';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const Title = () => (
+  <div className="title">
+    This is Important
+  </div>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const Body = () => (
+  <div className="body">
+    Here is some important text or error or something.
+  </div>
+);
+
+const Footer = () => (
+  <div className="footer">
+    <input type="button" value="Close" />
+  </div>
+);
+
+function Dialog({ children }) {
+  let items = React.Children.toArray(children);
+
+  for (let i = items.length - 1; i >= 1; i--) {
+    items.splice(i, 0,
+      <span key={ i }>
+        <hr />
+      </span>
+    );
+  }
+
+  return(
+    <div className="dialog">
+      { items }
+    </div>
+  );
+};
+
+Dialog.propTypes = {
+  children: PropTypes.node
+};
+
+ReactDOM.render(
+  <Dialog>
+    <Title />
+    <Body />
+    <Footer />
+  </Dialog>,
+  document.getElementById('root')
+);
